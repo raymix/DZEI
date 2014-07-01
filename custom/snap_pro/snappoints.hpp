@@ -1,0 +1,323 @@
+/*
+Created by Raymix
+*/
+
+// TODO: cinder TOP, woodsmallwallthird top, ramp, ladder to self, metal floor, DZEI
+
+class SnapBuilding {
+	//Barriers whitelist
+	class Barrier {
+		snapTo[] = {
+			"Land_HBarrier5_DZ",
+			"Land_HBarrier3_DZ",
+			"Land_HBarrier1_DZ",
+			"Sandbag1_DZ",
+			"BagFenceRound_DZ",
+			"Fort_RazorWire"
+		};
+	};
+	//snap points
+	class Land_HBarrier5Preview: Barrier{ //whitelist inheritance
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-0.75,0,"Back"},
+		{0,0.75,0,"Front"},
+		{-2.85,0,0,"Left"},
+		{2.85,0,0,"Right"},
+		{0,0,0.9,"Top"}
+		};
+	};
+	class Land_HBarrier5_DZ:Land_HBarrier5Preview {}; //point inheritance
+	
+	class Land_HBarrier3ePreview: Barrier {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-0.75,0,"Back"},
+		{0,0.75,0,"Front"},
+		{-1.7,0,0,"Left"},
+		{1.7,0,0,"Right"},
+		{0,0,0.9,"Top"}
+		};
+	};
+	class Land_HBarrier3_DZ: Land_HBarrier3ePreview{}; 
+
+	class Land_HBarrier1Preview: Barrier {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-0.75,0,"Back"},
+		{0,0.75,0,"Front"},
+		{-0.6,0,0,"Left"},
+		{0.6,0,0,"Right"},
+		{0,0,0.9,"Top"}
+		};
+	};
+	class Land_HBarrier1_DZ: Land_HBarrier1Preview{};
+		
+	class Fort_RazorWirePreview: Barrier {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-0.95,-0.3,"Back"},
+		{0,0.95,-0.3,"Front"},
+		{-4.1,0,-0.3,"Left"},
+		{4.1,0,-0.3,"Right"},
+		{0,0,1,"Top"}
+		};
+	};
+	class Fort_RazorWire: Fort_RazorWirePreview {};
+	
+	class Sandbag1_DZ: Barrier {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-1.5,0,0,"Left"},
+		{1.5,0,0,"Right"},
+		{0,0,0.4,"Top"}
+		};
+	};
+	
+	class BagFenceRound_DZ: Barrier {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-1.3,0,0,"Left"},
+		{1.3,0,0,"Right"},
+		{0,0,0.4,"Top"}
+		};
+	};
+	
+	//Snapping whitelists for Floors, walls and stairs
+	class FloorsWallsStairs {
+		snapTo[] = {
+			"WoodFloorQuarter_DZ",
+			"WoodFloorHalf_DZ",
+			"WoodFloor_DZ",
+			"WoodStairs_DZ",
+			"WoodStairsSans_DZ",
+			"WoodSmallWallDoor_DZ",
+			"WoodSmallWall_DZ",
+			"WoodSmallWallWin_DZ",
+			"Land_DZE_WoodDoor",
+			"Land_DZE_WoodDoorLocked",
+			"WoodLargeWall_DZ",
+			"Land_DZE_LargeWoodDoor",
+			"WoodLargeWallWin_DZ",
+			"WoodLargeWallDoor_DZ",
+			"Land_DZE_GarageWoodDoor",
+			"Land_DZE_GarageWoodDoorLocked",
+			"Land_DZE_LargeWoodDoorLocked",
+			"WoodSmallWallThird_DZ",
+			"CinderWall_DZ",
+			"CinderWallDoorway_DZ",
+			"CinderWallDoorLocked_DZ",
+			"CinderWallDoor_DZ",
+			"CinderWallSmallDoorway_DZ",
+			"CinderWallDoorSmallLocked_DZ",
+			"CinderWallHalf_DZ",
+			"CinderWallDoorSmall_DZ"		
+		};
+	};
+	
+	class WoodFloorQuarter_Preview_DZ: FloorsWallsStairs { //fix for broken offsets in ghost
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-1.23438,0,"Back"},
+		{0,1.23438,0,"Front"},
+		{-1.23438,0,0,"Left"},
+		{1.23438,0,0,"Right"}
+		};
+	};
+	
+	class WoodFloorQuarter_DZ: FloorsWallsStairs { 
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-1.23438,0.137726,"Back"},
+		{0,1.23438,0.137726,"Front"},
+		{-1.23438,0,0.137726,"Left"},
+		{1.23438,0,0.137726,"Right"}
+		};
+	};
+	
+	class WoodFloorHalf_Preview_DZ: FloorsWallsStairs { //fix for broken offsets in ghost
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-2.37305,0,"Back"},
+		{0,2.37305,0,"Front"},
+		{-1.25,0,0,"Left"},
+		{1.25,0,0,"Right"}
+		};
+	};
+	class WoodFloorHalf_DZ: FloorsWallsStairs{
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-2.37305,0.1407,"Back"},
+		{0,2.37305,0.1407,"Front"},
+		{-1.25,0,0.1407,"Left"},
+		{1.25,0,0.1407,"Right"}
+		};
+	};
+	
+	class WoodFloor_Preview_DZ: FloorsWallsStairs {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-2.34766,0.130,"Back"},
+		{0,2.34766,0.130,"Front"},
+		{-2.5,0,0.130,"Left"},
+		{2.5,0,0.130,"Right"}
+		};
+	};
+	class WoodFloor_DZ: WoodFloor_Preview_DZ{};
+	
+	class Stairs_DZE: FloorsWallsStairs {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{1.73926,0,2.9,"Front"},
+		{1.56055,0.797852,1.5,"Left"},
+		{1.56055,-0.797852,1.5,"Right"}
+		};
+	};
+	class WoodStairs_Preview_DZ: Stairs_DZE {};
+	class WoodStairsSans_Preview_DZ: Stairs_DZE {};
+	class WoodStairsSans_DZ: Stairs_DZE {};
+
+	class WoodSmall_DZE: FloorsWallsStairs { // Small wood walls
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-2.26, 0, 1.5,"Left"},
+		{2.26, 0, 1.5,"Right"},
+		{0, 0, 3.04327,"Top"}
+		};
+	};
+	class WoodSmallWallDoor_Preview_DZ: WoodSmall_DZE {};
+	class WoodSmallWall_Preview_DZ: WoodSmall_DZE {};
+	class WoodSmallWallWin_Preview_DZ: WoodSmall_DZE {};
+	class WoodSmallWallDoor_DZ: WoodSmall_DZE {};
+	class WoodSmallWall_DZ: WoodSmall_DZE {};
+	class WoodSmallWallWin_DZ: WoodSmall_DZE {};
+	class Land_DZE_WoodDoor: WoodSmall_DZE {};
+	class Land_DZE_WoodDoorLocked: WoodSmall_DZE {};
+	
+	class WoodLarge_DZE: FloorsWallsStairs { //Large wood walls
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-2.45, 0, 1.5,"Left"},
+		{2.45, 0, 1.5,"Right"},
+		{0, 0, 3.0570,"Top"}
+		};
+	};
+	class WoodLargeWall_Preview_DZ: WoodLarge_DZE {};
+	class WoodLargeWallWin_Preview_DZ: WoodLarge_DZE {};
+	class WoodLargeWallDoor_Preview_DZ: WoodLarge_DZE {};
+	class WoodSmallWallThird_Preview_DZ: WoodLarge_DZE {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-2.45, 0, 1.5,"Left"},
+		{2.45, 0, 1.5,"Right"},
+		{0, 0, 1.17,"Top"}
+		};
+	};
+	class WoodLargeWall_DZ: WoodLarge_DZE {};
+	class Land_DZE_LargeWoodDoor: WoodLarge_DZE {};
+	class WoodLargeWallWin_DZ: WoodLarge_DZE {};
+	class WoodLargeWallDoor_DZ: WoodLarge_DZE {};
+	class Land_DZE_GarageWoodDoor: WoodLarge_DZE {};
+	class Land_DZE_GarageWoodDoorLocked: WoodLarge_DZE {};
+	class Land_DZE_LargeWoodDoorLocked: WoodLarge_DZE {};
+	class WoodSmallWallThird_DZ: WoodLarge_DZE {};
+	
+	class Cinder_DZE: FloorsWallsStairs { //All cinder walls and doors
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-2.752, 0, 1.5,"Left"},
+		{2.752, 0, 1.5,"Right"},
+		{0, 0, 3.37042,"Top"}
+		};
+	};
+	class CinderWall_Preview_DZ: Cinder_DZE {};
+	class CinderWallDoorway_Preview_DZ: Cinder_DZE {};
+	class CinderWallSmallDoorway_Preview: Cinder_DZE {};
+	class CinderWallHalf_Preview_DZ: Cinder_DZE {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-2.752, 0, 1.5,"Left"},
+		{2.752, 0, 1.5,"Right"},
+		{0, 0, 1.5,"Top"}
+		};
+	};
+	class CinderWall_DZ: Cinder_DZE {};
+	class CinderWallDoorway_DZ: Cinder_DZE {};
+	class CinderWallDoorLocked_DZ: Cinder_DZE {};
+	class CinderWallDoor_DZ: Cinder_DZE {};
+	class CinderWallSmallDoorway_DZ: Cinder_DZE {};
+	class CinderWallDoorSmallLocked_DZ: Cinder_DZE {};
+	class CinderWallHalf_DZ: Cinder_DZE {
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-2.752, 0, 1.5,"Left"},
+		{2.752, 0, 1.5,"Right"},
+		{0, 0, 1.5,"Top"}
+		};
+	};
+	class CinderWallDoorSmall_DZ: Cinder_DZE {};
+	
+	
+	//Non essential Items that only snap to themselves, do whitelist inheritance if you want these to snap
+	class WoodCrate_DZ {
+		snapTo[] = {
+			"WoodCrate_DZ"
+		};
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-0.47,0,"Back"},
+		{0,0.47,0,"Front"},
+		{-0.47,0,0,"Left"},
+		{0.47,0,0,"Right"},
+		{0,0,0.47,"Top"}
+		};
+	};
+		
+	class MetalPanel_DZ {
+		snapTo[] = {
+			"MetalPanel_DZ"
+		};
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-1.5,0,0,"Left"},
+		{1.5,0,0,"Right"},
+		{0,0,2,"Top"}
+		};
+	};
+	
+		class MetalGate_DZ {
+		snapTo[] = {
+			"MetalGate_DZ"
+		};
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-4.1,0,0.6,"Left"},
+		{4.1,0,0.6,"Right"}
+		};
+	};
+	
+	class StickFence_DZ {
+		snapTo[] = {
+			"StickFence_DZ"
+		};
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-2.95,0,0.3,"Left"},
+		{2.95,0,0.3,"Right"},
+		{0,0,0.6,"Top"}
+		};
+	};
+	
+	class Fence_corrugated_DZ {
+		snapTo[] = {
+			"Fence_corrugated_DZ"
+		};
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-2,0,0.88,"Left"},
+		{2,0,0.88,"Right"},
+		{0,0,1.32,"Top"}
+		};
+	};
+
+};
