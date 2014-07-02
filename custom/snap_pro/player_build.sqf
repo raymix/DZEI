@@ -5,7 +5,7 @@
 private ["_helperColor","_objectHelper","_objectHelperDir","_objectHelperPos","_canDo",
 "_location","_dir","_classname","_item","_hasrequireditem","_missing","_hastoolweapon","_cancel","_reason","_started","_finished","_animState","_isMedic","_dis","_sfx","_hasbuilditem","_tmpbuilt","_onLadder","_isWater","_require","_text","_offset","_IsNearPlot","_isOk","_location1","_location2","_counter","_limit","_proceed","_num_removed","_position","_object","_canBuildOnPlot","_friendlies","_nearestPole","_ownerID","_findNearestPoles","_findNearestPole","_distance","_classnametmp","_ghost","_isPole","_needText","_lockable","_zheightchanged","_rotate","_combination_1","_combination_2","_combination_3","_combination_4","_combination","_combination_1_Display","_combinationDisplay","_zheightdirection","_abort","_isNear","_need","_needNear","_vehicle","_inVehicle","_requireplot","_objHDiff","_isLandFireDZ","_isTankTrap"];
 
-if(DZE_ActionInProgress) exitWith { cutText [(localize "str_epoch_player_40") , "PLAIN DOWN"]; };
+if(DZE_ActionInProgress) exitWith { cutText [(localize "str_epoch_player_40") , "PLAIN DOWN"]; call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup; };
 DZE_ActionInProgress = true;
 
 // disallow building if too many objects are found within 30m
@@ -222,12 +222,12 @@ if (_hasrequireditem) then {
 
 	_position = getPosATL _objectHelper;
 	
-	cutText [(localize "str_epoch_player_45"), "PLAIN DOWN"];
+	//cutText [(localize "str_epoch_player_45"), "PLAIN DOWN"];
 
 	_objHDiff = 0;
 
 if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {	
-	s_player_toggleSnap = player addaction [("<t color=""#ffffff"">" + ("Snap: OFF") +"</t>"),"custom\snap_pro\snap_build.sqf",["OFF",_object,_classname,_objectHelper],6,false,false];
+	["","","",["Init",_object,_classname,_objectHelper]] spawn snap_build;
 }else{
 	[0,0,0] call fnc_snapActionCleanup;
 };
@@ -379,6 +379,7 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
+			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 		if(_location1 distance _location2 > 10) exitWith {
@@ -389,6 +390,7 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
+			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 		if(abs(_objHDiff) > 5) exitWith {
@@ -399,6 +401,7 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
+			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 		if (player getVariable["combattimeout", 0] >= time) exitWith {
@@ -409,6 +412,7 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
+			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 		if (DZE_cancelBuilding) exitWith {
@@ -419,6 +423,7 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
+			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 	};
 
@@ -600,6 +605,7 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			} else {
 				deleteVehicle _tmpbuilt;
 				cutText [(localize "str_epoch_player_46") , "PLAIN DOWN"];
+				call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 			};
 
 		} else {
@@ -612,10 +618,12 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _tmpbuilt;
 
 			cutText [(localize "str_epoch_player_46") , "PLAIN DOWN"];
+			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 	} else {
 		cutText [format[(localize "str_epoch_player_47"),_text,_reason], "PLAIN DOWN"];
+		call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 	};
 };
 

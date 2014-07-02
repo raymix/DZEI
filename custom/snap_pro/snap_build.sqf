@@ -130,12 +130,33 @@ fnc_snapDistanceCheck = {
 				waitUntil {sleep 0.1; !helperDetach};
 			};
 		};
-		
 		sleep 0.1;
 	};
 };
 
 switch (snapActionState) do {
+	case "Init": {
+		snapActionState = "OFF";
+		[1,0,0] call fnc_snapActionCleanup;
+		/*
+			Shows help dialog for player ONCE per log in, explaining controls.
+			Add snapHint = false; to your init.sqf to disable this message completely.
+		*/
+		if (isNil "snapHint") then { 
+			_bldTxtClr = "color='#ff8800'"; //orange
+			_bldTxtClr2 = "color='#17DBEC'"; //cyan
+			_bldTxtStringTitle = parseText format ["<t %1>Snap Building Pro</t>",_bldTxtClr];
+			_bldTxtString1 = parseText format ["<t %1>(PgUp or PgDown)</t> to raise or lower the object",_bldTxtClr];
+			_bldTxtString2 = parseText format ["Hold <t %1>(ALT or CTRL)</t> + <t %1>(PgUp or PgDown)</t> to change speed of altitude",_bldTxtClr];
+			_bldTxtString3 = parseText format ["<t %1>(Q or E)</t> to rotate object 180 degrees while holding or +/-45 degrees while Detached/Snapped",_bldTxtClr];
+			_bldTxtString4 = parseText format ["<t %1>(Space-Bar)</t> to build your object",_bldTxtClr];
+			_bldTxtString5 = parseText format ["<t %2>[Auto Mode]</t> Toggle <t %1>(F)</t> Key to Snap or Pick up object",_bldTxtClr,_bldTxtClr2];
+			_bldTxtString6 = parseText format ["<t %2>[Manual Mode]</t> Toggle <t %1>(F)</t> Key to Detach or Pick up object",_bldTxtClr,_bldTxtClr2];
+			"" hintC [_bldTxtString1,_bldTxtString2,_bldTxtString3,_bldTxtString4,_bldTxtString5,_bldTxtString6];
+			snapHint = false;
+		};
+	};
+	
 	case "OFF": {
 	snapActionState = "ON"; snapActionStateSelect = "Auto";
 	[1,1,0] call fnc_snapActionCleanup;
