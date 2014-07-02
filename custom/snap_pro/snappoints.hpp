@@ -2,7 +2,7 @@
 Created by Raymix
 */
 
-// TODO: cinder TOP, woodsmallwallthird top, ramp, ladder to self, metal floor, DZEI
+// TODO: cinder TOP, DZEI
 
 class SnapBuilding {
 	//Barriers whitelist
@@ -17,7 +17,17 @@ class SnapBuilding {
 		};
 	};
 	//snap points
-	class Land_HBarrier5Preview: Barrier{ //whitelist inheritance
+	class Land_HBarrier5Preview: Barrier{ //fix for broken offsets in ghost
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0,-0.75,0.1,"Back"},
+		{0,0.75,0.1,"Front"},
+		{-2.85,0,0.1,"Left"},
+		{2.85,0,0.1,"Right"},
+		{0,0,0.9,"Top"}
+		};
+	};
+	class Land_HBarrier5_DZ: Land_HBarrier5Preview {
 		points[] = {
 		{0,0,0,"Pivot"},
 		{0,-0.75,0,"Back"},
@@ -26,10 +36,9 @@ class SnapBuilding {
 		{2.85,0,0,"Right"},
 		{0,0,0.9,"Top"}
 		};
-	};
-	class Land_HBarrier5_DZ:Land_HBarrier5Preview {}; //point inheritance
+	}; 
 	
-	class Land_HBarrier3ePreview: Barrier {
+	class Land_HBarrier3ePreview: Barrier { //whitelist inheritance
 		points[] = {
 		{0,0,0,"Pivot"},
 		{0,-0.75,0,"Back"},
@@ -39,7 +48,7 @@ class SnapBuilding {
 		{0,0,0.9,"Top"}
 		};
 	};
-	class Land_HBarrier3_DZ: Land_HBarrier3ePreview{}; 
+	class Land_HBarrier3_DZ: Land_HBarrier3ePreview{}; //point inheritance
 
 	class Land_HBarrier1Preview: Barrier {
 		points[] = {
@@ -111,35 +120,36 @@ class SnapBuilding {
 			"CinderWallSmallDoorway_DZ",
 			"CinderWallDoorSmallLocked_DZ",
 			"CinderWallHalf_DZ",
-			"CinderWallDoorSmall_DZ"		
+			"CinderWallDoorSmall_DZ",
+			"MetalFloor_DZ"
 		};
 	};
 	
 	class WoodFloorQuarter_Preview_DZ: FloorsWallsStairs { //fix for broken offsets in ghost
 		points[] = {
 		{0,0,0,"Pivot"},
-		{0,-1.23438,0,"Back"},
-		{0,1.23438,0,"Front"},
-		{-1.23438,0,0,"Left"},
-		{1.23438,0,0,"Right"}
+		{0,-1.23,0,"Back"},
+		{0,1.23,0,"Front"},
+		{-1.24,0,0,"Left"},
+		{1.24,0,0,"Right"}
 		};
 	};
 	
 	class WoodFloorQuarter_DZ: FloorsWallsStairs { 
 		points[] = {
 		{0,0,0,"Pivot"},
-		{0,-1.23438,0.137726,"Back"},
-		{0,1.23438,0.137726,"Front"},
-		{-1.23438,0,0.137726,"Left"},
-		{1.23438,0,0.137726,"Right"}
+		{0,-1.23,0.137726,"Back"},
+		{0,1.23,0.137726,"Front"},
+		{-1.24,0,0.137726,"Left"},
+		{1.24,0,0.137726,"Right"}
 		};
 	};
 	
 	class WoodFloorHalf_Preview_DZ: FloorsWallsStairs { //fix for broken offsets in ghost
 		points[] = {
 		{0,0,0,"Pivot"},
-		{0,-2.37305,0,"Back"},
-		{0,2.37305,0,"Front"},
+		{0,-2.34,0,"Back"},
+		{0,2.34,0,"Front"},
 		{-1.25,0,0,"Left"},
 		{1.25,0,0,"Right"}
 		};
@@ -147,8 +157,8 @@ class SnapBuilding {
 	class WoodFloorHalf_DZ: FloorsWallsStairs{
 		points[] = {
 		{0,0,0,"Pivot"},
-		{0,-2.37305,0.1407,"Back"},
-		{0,2.37305,0.1407,"Front"},
+		{0,-2.34,0.1407,"Back"},
+		{0,2.34,0.1407,"Front"},
 		{-1.25,0,0.1407,"Left"},
 		{1.25,0,0.1407,"Right"}
 		};
@@ -157,10 +167,10 @@ class SnapBuilding {
 	class WoodFloor_Preview_DZ: FloorsWallsStairs {
 		points[] = {
 		{0,0,0,"Pivot"},
-		{0,-2.34766,0.130,"Back"},
-		{0,2.34766,0.130,"Front"},
-		{-2.5,0,0.130,"Left"},
-		{2.5,0,0.130,"Right"}
+		{0,-2.33,0.130,"Back"},
+		{0,2.33,0.130,"Front"},
+		{-2.45,0,0.130,"Left"},
+		{2.45,0,0.130,"Right"}
 		};
 	};
 	class WoodFloor_DZ: WoodFloor_Preview_DZ{};
@@ -168,9 +178,9 @@ class SnapBuilding {
 	class Stairs_DZE: FloorsWallsStairs {
 		points[] = {
 		{0,0,0,"Pivot"},
-		{1.73926,0,2.9,"Front"},
-		{1.56055,0.797852,1.5,"Left"},
-		{1.56055,-0.797852,1.5,"Right"}
+		{1.56055,-0.78,1.5,"Back"},
+		{1.56055,0.78,1.5,"Front"},
+		{1.73926,0.05,2.9,"Top"}
 		};
 	};
 	class WoodStairs_Preview_DZ: Stairs_DZE {};
@@ -180,9 +190,9 @@ class SnapBuilding {
 	class WoodSmall_DZE: FloorsWallsStairs { // Small wood walls
 		points[] = {
 		{0,0,0,"Pivot"},
-		{-2.26, 0, 1.5,"Left"},
-		{2.26, 0, 1.5,"Right"},
-		{0, 0, 3.04327,"Top"}
+		{-2.285, 0, 1.5,"Left"},
+		{2.285, 0, 1.5,"Right"},
+		{0, 0, 3,"Top"}
 		};
 	};
 	class WoodSmallWallDoor_Preview_DZ: WoodSmall_DZE {};
@@ -199,7 +209,7 @@ class SnapBuilding {
 		{0,0,0,"Pivot"},
 		{-2.45, 0, 1.5,"Left"},
 		{2.45, 0, 1.5,"Right"},
-		{0, 0, 3.0570,"Top"}
+		{0, 0, 3,"Top"}
 		};
 	};
 	class WoodLargeWall_Preview_DZ: WoodLarge_DZE {};
@@ -208,11 +218,12 @@ class SnapBuilding {
 	class WoodSmallWallThird_Preview_DZ: WoodLarge_DZE {
 		points[] = {
 		{0,0,0,"Pivot"},
-		{-2.45, 0, 1.5,"Left"},
-		{2.45, 0, 1.5,"Right"},
+		{-2.445, 0, 1.5,"Left"},
+		{2.445, 0, 1.5,"Right"},
 		{0, 0, 1.17,"Top"}
 		};
 	};
+	class WoodSmallWallThird_DZ: WoodSmallWallThird_Preview_DZ{};
 	class WoodLargeWall_DZ: WoodLarge_DZE {};
 	class Land_DZE_LargeWoodDoor: WoodLarge_DZE {};
 	class WoodLargeWallWin_DZ: WoodLarge_DZE {};
@@ -220,7 +231,6 @@ class SnapBuilding {
 	class Land_DZE_GarageWoodDoor: WoodLarge_DZE {};
 	class Land_DZE_GarageWoodDoorLocked: WoodLarge_DZE {};
 	class Land_DZE_LargeWoodDoorLocked: WoodLarge_DZE {};
-	class WoodSmallWallThird_DZ: WoodLarge_DZE {};
 	
 	class Cinder_DZE: FloorsWallsStairs { //All cinder walls and doors
 		points[] = {
@@ -232,7 +242,7 @@ class SnapBuilding {
 	};
 	class CinderWall_Preview_DZ: Cinder_DZE {};
 	class CinderWallDoorway_Preview_DZ: Cinder_DZE {};
-	class CinderWallSmallDoorway_Preview: Cinder_DZE {};
+	class CinderWallSmallDoorway_Preview_DZ: Cinder_DZE {}; 
 	class CinderWallHalf_Preview_DZ: Cinder_DZE {
 		points[] = {
 		{0,0,0,"Pivot"},
@@ -257,6 +267,25 @@ class SnapBuilding {
 	};
 	class CinderWallDoorSmall_DZ: Cinder_DZE {};
 	
+	class MetalFloor_Preview_DZ: FloorsWallsStairs { //fix for broken offsets in ghost
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0, -2.64, 0,"Back"},
+		{0, 2.64, 0,"Front"},
+		{-2.64, 0, 0,"Left"},
+		{2.64, 0, 0,"Right"}
+		};
+	};
+	class MetalFloor_DZ: FloorsWallsStairs{
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0, -2.64, 0.15,"Back"},
+		{0, 2.64, 0.15,"Front"},
+		{-2.64, 0, 0.15,"Left"},
+		{2.64, 0, 0.15,"Right"}
+		};
+	};
+	
 	
 	//Non essential Items that only snap to themselves, do whitelist inheritance if you want these to snap
 	class WoodCrate_DZ {
@@ -280,8 +309,7 @@ class SnapBuilding {
 		points[] = {
 		{0,0,0,"Pivot"},
 		{-1.5,0,0,"Left"},
-		{1.5,0,0,"Right"},
-		{0,0,2,"Top"}
+		{1.5,0,0,"Right"}
 		};
 	};
 	
@@ -291,8 +319,7 @@ class SnapBuilding {
 		};
 		points[] = {
 		{0,0,0,"Pivot"},
-		{-4.1,0,0.6,"Left"},
-		{4.1,0,0.6,"Right"}
+		{-4.1,0,0,"Left"}
 		};
 	};
 	
@@ -303,8 +330,7 @@ class SnapBuilding {
 		points[] = {
 		{0,0,0,"Pivot"},
 		{-2.95,0,0.3,"Left"},
-		{2.95,0,0.3,"Right"},
-		{0,0,0.6,"Top"}
+		{2.95,0,0.3,"Right"}
 		};
 	};
 	
@@ -314,10 +340,33 @@ class SnapBuilding {
 		};
 		points[] = {
 		{0,0,0,"Pivot"},
-		{-2,0,0.88,"Left"},
-		{2,0,0.88,"Right"},
-		{0,0,1.32,"Top"}
+		{-1.95,0,0.88,"Left"},
+		{1.95,0,0.88,"Right"}
 		};
 	};
-
+	
+	class WoodRamp_Preview_DZ {
+		snapTo[] = {
+			"WoodRamp_DZ"
+		};
+		points[] = {
+		{0,0,0,"Pivot"},
+		{0.65,-1.7,1.2,"Back"},
+		{0.65,1.5,1.2,"Front"},
+		{3.34,-0.115,2.82,"Top"}
+		};
+	};
+	class WoodRamp_DZ: WoodRamp_Preview_DZ{};
+	
+	class WoodLadder_Preview_DZ {
+		snapTo[] = {
+			"WoodLadder_DZ"
+		};
+		points[] = {
+		{0,0,0,"Pivot"},
+		{-0.4,0,1.725,"Left"},
+		{0.4,0,1.725,"Right"}
+		};
+	};
+	class WoodLadder_DZ: WoodLadder_Preview_DZ{};
 };

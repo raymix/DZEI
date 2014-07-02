@@ -95,7 +95,7 @@ fnc_snapDistanceCheck = {
 				};
 		} forEach snapGizmosNearby;	
 		
-		if (snapActionStateSelect == "Manual") then {
+		if (snapActionStateSelect == "Manual" or snapActionStateSelect == "Selected" ) then {
 			if (helperDetach) then {
 				_distClosestPointFoundPos = getPosATL _distClosestPointFound;
 				_distClosestPointFoundDir = getDir _distClosestPointFound;
@@ -147,7 +147,7 @@ switch (snapActionState) do {
 			_bldTxtClr2 = "color='#17DBEC'"; //cyan
 			_bldTxtStringTitle = parseText format ["<t %1>Snap Building Pro</t>",_bldTxtClr];
 			_bldTxtString1 = parseText format ["<t %1>(PgUp or PgDown)</t> to raise or lower the object",_bldTxtClr];
-			_bldTxtString2 = parseText format ["Hold <t %1>(ALT or CTRL)</t> + <t %1>(PgUp or PgDown)</t> to change speed of altitude",_bldTxtClr];
+			_bldTxtString2 = parseText format ["Hold <t %1>(ALT or CTRL)</t> + <t %1>(PgUp or PgDown)</t> to change speed of altitude (Works while snapped)",_bldTxtClr];
 			_bldTxtString3 = parseText format ["<t %1>(Q or E)</t> to rotate object 180 degrees while holding or +/-45 degrees while Detached/Snapped",_bldTxtClr];
 			_bldTxtString4 = parseText format ["<t %1>(Space-Bar)</t> to build your object",_bldTxtClr];
 			_bldTxtString5 = parseText format ["<t %2>[Auto Mode]</t> Toggle <t %1>(F)</t> Key to Snap or Pick up object",_bldTxtClr,_bldTxtClr2];
