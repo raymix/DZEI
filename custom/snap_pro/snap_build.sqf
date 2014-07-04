@@ -19,6 +19,7 @@ _points = getArray (_cfg >> "points");
 _objColorActive = "#(argb,8,8,3)color(0,0.92,0.06,1,ca)";
 _objColorInactive = "#(argb,8,8,3)color(0.04,0.84,0.92,0.3,ca)";
 
+
 fnc_snapActionCleanup = {
 	private ["_s1","_s2","_s3","_cnt"];
 	_s1 = _this select 0;
@@ -26,20 +27,20 @@ fnc_snapActionCleanup = {
 	_s3 = _this select 2;
 	player removeAction s_player_toggleSnap;
 	player removeAction s_player_toggleSnapSelect;
-	{player removeAction _x;} forEach s_player_toggleSnapSelectPoint;
+	{player removeAction _x;} count s_player_toggleSnapSelectPoint;
 	if (_s1 > 0) then {
-	s_player_toggleSnap = player addaction [format[("<t color=""#ffffff"">" + ("Snap: %1") +"</t>"),snapActionState],"custom\snap_pro\snap_build.sqf",[snapActionState,_object,_classname,_objectHelper],6,false,false];
+	s_player_toggleSnap = player addaction [format[("<t color=""#ffffff"">" + ("Snap: %1") +"</t>"),snapActionState],"custom\snap_pro\snap_build.sqf",[snapActionState,_object,_classname,_objectHelper],6,false,true];
 	};
 	if (_s2 > 0) then {
-	s_player_toggleSnapSelect = player addaction [format[("<t color=""#ffffff"">" + ("Snap Point: %1") +"</t>"),snapActionStateSelect],"custom\snap_pro\snap_build.sqf",[snapActionStateSelect,_object,_classname,_objectHelper],5,false,false];
+	s_player_toggleSnapSelect = player addaction [format[("<t color=""#ffffff"">" + ("Snap Point: %1") +"</t>"),snapActionStateSelect],"custom\snap_pro\snap_build.sqf",[snapActionStateSelect,_object,_classname,_objectHelper],5,false,true];
 	};
 	if (_s3 > 0) then {
 	s_player_toggleSnapSelectPoint=[];
 	_cnt = 0;
-	{snapActions = player addaction [format[("<t color=""#ffffff"">" + ("%1)Select: %2") +"</t>"),_cnt,_x select 3],"custom\snap_pro\snap_build.sqf",["Selected",_object,_classname,_objectHelper,_cnt],4,false,true];
+	{snapActions = player addaction [format[("<t color=""#ffffff"">" + ("%1)Select: %2") +"</t>"),_cnt,_x select 3],"custom\snap_pro\snap_build.sqf",["Selected",_object,_classname,_objectHelper,_cnt],4,false,false];
 	s_player_toggleSnapSelectPoint set [count s_player_toggleSnapSelectPoint,snapActions];
 	_cnt = _cnt+1;
-	}forEach _points;
+	}count _points;
 	};
 };
 
@@ -50,7 +51,7 @@ fnc_initSnapPoints = {
 	_objectSnapGizmo setobjecttexture [0,_objColorInactive];
 	_objectSnapGizmo attachTo [_object,[_x select 0,_x select 1,_x select 2]];
 	snapGizmos set [count snapGizmos,_objectSnapGizmo];
-} forEach _points;
+} count _points;
 };
 
 fnc_initSnapPointsNearby = {
@@ -73,23 +74,28 @@ fnc_initSnapPointsNearby = {
 			};
 			_objectSnapGizmo setDir (getDir _nearbyObject);
 			snapGizmosNearby set [count snapGizmosNearby,_objectSnapGizmo];
-		} forEach _pointsNearby;
+		} count _pointsNearby;
 	} forEach _findWhitelisted;
 };
 
 fnc_initSnapPointsCleanup = {
-{detach _x;deleteVehicle _x;}forEach snapGizmos;snapGizmos=[];
-{deleteVehicle _x;}forEach snapGizmosNearby;snapGizmosNearby=[];
+{detach _x;deleteVehicle _x;}count snapGizmos;snapGizmos=[];
+{deleteVehicle _x;}count snapGizmosNearby;snapGizmosNearby=[];
 snapActionState = "OFF";
 };
 
 fnc_snapDistanceCheck = {
-	while {snapActionState == "ON"} do {
+	while {snapActionState != "OFF"} do {
 	private ["_distClosestPointFound","_distCheck","_distClosest","_distClosestPoint","_testXPos","_testXDir","_distClosestPointFoundPos","_distClosestPointFoundDir","_distClosestAttached","_distCheckAttached","_distClosestAttachedFoundPos"];
 	_distClosestPointFound = objNull; _distCheck = 0; _distClosest = 10; _distClosestPoint = objNull; _testXPos = []; _distClosestPointFoundPos =[]; _distClosestPointFoundDir = 0;
 		{	
 			if (_x !=_distClosestPointFound) then {_x setobjecttexture [0,_objColorInactive];};
-			_testXPos = [(getPosATL _x select 0),(getPosATL _x select 1),(getPosATL _x select 2)];
+			_onWater = surfaceIsWater position _x;
+			if (_onWater) then {
+				_testXPos = [(getPosASL _x select 0),(getPosASL _x select 1),(getPosASL _x select 2)];
+			} else {
+				_testXPos = [(getPosATL _x select 0),(getPosATL _x select 1),(getPosATL _x select 2)];
+			};
 			_distCheck = _objectHelper distance _testXPos;
 			_distClosestPoint = _x;
 				if (_distCheck < _distClosest) then {
@@ -98,13 +104,19 @@ fnc_snapDistanceCheck = {
 					_distClosestPointFound = _x;
 					_distClosestPointFound setobjecttexture [0,_objColorActive];
 				};
-		} forEach snapGizmosNearby;	
+		} count snapGizmosNearby;	
 		
-		if (snapActionStateSelect == "Manual" or snapActionStateSelect == "Selected" ) then {
+		if (snapActionStateSelect == "Manual") then {
 			if (helperDetach) then {
-				_distClosestPointFoundPos = getPosATL _distClosestPointFound;
+				_onWater = surfaceIsWater position _distClosestPointFound;
 				_distClosestPointFoundDir = getDir _distClosestPointFound;
-				_objectHelper setPosATL _distClosestPointFoundPos;
+				if (_onWater) then {
+					_distClosestPointFoundPos = getPosASL _distClosestPointFound;
+					_objectHelper setPosASL _distClosestPointFoundPos;
+				} else {
+					_distClosestPointFoundPos = getPosATL _distClosestPointFound;
+					_objectHelper setPosATL _distClosestPointFoundPos;
+				};
 				_objectHelper setDir _distClosestPointFoundDir;
 				waitUntil {sleep 0.1; !helperDetach};
 			};
@@ -112,7 +124,12 @@ fnc_snapDistanceCheck = {
 			_distClosestAttached = objNull; _distCheckAttached = 0; _distClosest = 10; _distClosestAttachedFoundPos = [];
 			{
 				if (_x !=_distClosestAttached) then {_x setobjecttexture [0,_objColorInactive];};
-				_testXPos = [(getPosATL _x select 0),(getPosATL _x select 1),(getPosATL _x select 2)];
+				_onWater = surfaceIsWater position _x;
+				if (_onWater) then {
+					_testXPos = [(getPosASL _x select 0),(getPosASL _x select 1),(getPosASL _x select 2)];
+				} else {
+					_testXPos = [(getPosATL _x select 0),(getPosATL _x select 1),(getPosATL _x select 2)];
+				};
 				_distCheckAttached = _distClosestPointFound distance _testXPos;
 				_distClosestPoint = _x;
 					if (_distCheckAttached < _distClosest) then {
@@ -121,16 +138,27 @@ fnc_snapDistanceCheck = {
 						_distClosestAttached = _x;
 						_distClosestAttached setobjecttexture [0,_objColorActive];
 					};
-			} forEach snapGizmos;
+			} count snapGizmos;
 		
 			if (helperDetach) then {
-				_distClosestPointFoundPos = getPosATL _distClosestPointFound;
 				_distClosestPointFoundDir = getDir _distClosestPointFound;
-				_distClosestAttachedFoundPos = getPosATL _distClosestAttached;
-				detach _object;
-				_objectHelper setPosATL _distClosestAttachedFoundPos;
-				_object attachTo [_objectHelper];
-				_objectHelper setPosATL _distClosestPointFoundPos;
+				_onWater = surfaceIsWater position _distClosestPointFound;
+				if (_onWater) then {
+					_distClosestPointFoundPos = getPosASL _distClosestPointFound;
+					_distClosestAttachedFoundPos = getPosASL _distClosestAttached;
+					detach _object;
+					_objectHelper setPosASL _distClosestAttachedFoundPos;
+					_object attachTo [_objectHelper];
+					_objectHelper setPosASL _distClosestPointFoundPos;
+				} else {
+					_distClosestPointFoundPos = getPosATL _distClosestPointFound;
+					_distClosestAttachedFoundPos = getPosATL _distClosestAttached;
+					detach _object;
+					_objectHelper setPosATL _distClosestAttachedFoundPos;
+					_object attachTo [_objectHelper];
+					_objectHelper setPosATL _distClosestPointFoundPos;
+
+				};
 				_objectHelper setDir _distClosestPointFoundDir;
 				waitUntil {sleep 0.1; !helperDetach};
 			};
@@ -160,18 +188,24 @@ switch (snapActionState) do {
 			"" hintC [_bldTxtString1,_bldTxtString2,_bldTxtString3,_bldTxtString4,_bldTxtString5,_bldTxtString6];
 			snapHint = false;
 		};
+		[] spawn {
+		while {true} do {
+			if(!DZE_ActionInProgress) exitWith {call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup; snapActionState = "OFF";};
+			sleep 2;
+			};
+		};
 	};
-	
 	case "OFF": {
 	snapActionState = "ON"; snapActionStateSelect = "Auto";
 	[1,1,0] call fnc_snapActionCleanup;
 	call fnc_initSnapPoints;
 	call fnc_initSnapPointsNearby;
+	sleep 0.25;
 	call fnc_snapDistanceCheck;
 	};
 	
 	case "ON": {
-	//snapActionState = "OFF";
+	snapActionState = "OFF";
 	[1,0,0] call fnc_snapActionCleanup;
 	call fnc_initSnapPointsCleanup;
 	};
@@ -179,13 +213,11 @@ switch (snapActionState) do {
 	case "Auto": {
 	snapActionState = "ON";snapActionStateSelect = "Manual";
 	[1,1,1] call fnc_snapActionCleanup;
-	call fnc_snapDistanceCheck;
 	};
 	
 	case "Manual": {
 	snapActionState = "ON";snapActionStateSelect = "Auto";
 	[1,1,0] call fnc_snapActionCleanup;
-	call fnc_snapDistanceCheck;
 	};
 	
 	case "Selected": { _cnt = 0; _newPos = [];
@@ -201,6 +233,6 @@ switch (snapActionState) do {
 		if (!helperDetach) then {_objectHelper attachTo [player];};	
 	};
 	_cnt = _cnt+1;
-}forEach snapGizmos;
+}count snapGizmos;
 	};
 };

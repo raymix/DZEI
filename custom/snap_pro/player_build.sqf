@@ -5,11 +5,11 @@
 private ["_helperColor","_objectHelper","_objectHelperDir","_objectHelperPos","_canDo",
 "_location","_dir","_classname","_item","_hasrequireditem","_missing","_hastoolweapon","_cancel","_reason","_started","_finished","_animState","_isMedic","_dis","_sfx","_hasbuilditem","_tmpbuilt","_onLadder","_isWater","_require","_text","_offset","_IsNearPlot","_isOk","_location1","_location2","_counter","_limit","_proceed","_num_removed","_position","_object","_canBuildOnPlot","_friendlies","_nearestPole","_ownerID","_findNearestPoles","_findNearestPole","_distance","_classnametmp","_ghost","_isPole","_needText","_lockable","_zheightchanged","_rotate","_combination_1","_combination_2","_combination_3","_combination_4","_combination","_combination_1_Display","_combinationDisplay","_zheightdirection","_abort","_isNear","_need","_needNear","_vehicle","_inVehicle","_requireplot","_objHDiff","_isLandFireDZ","_isTankTrap"];
 
-if(DZE_ActionInProgress) exitWith { cutText [(localize "str_epoch_player_40") , "PLAIN DOWN"]; call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup; };
+if(DZE_ActionInProgress) exitWith { cutText [(localize "str_epoch_player_40") , "PLAIN DOWN"];};
 DZE_ActionInProgress = true;
 
 // disallow building if too many objects are found within 30m
-if((count ((getPosATL player) nearObjects ["All",30])) >= DZE_BuildingLimit) exitWith {DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_41"), "PLAIN DOWN"];call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;};
+if((count ((getPosATL player) nearObjects ["All",30])) >= DZE_BuildingLimit) exitWith {DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_41"), "PLAIN DOWN"];};
 
 _onLadder =		(getNumber (configFile >> "CfgMovesMaleSdr" >> "States" >> (animationState player) >> "onLadder")) == 1;
 _isWater = 		dayz_isSwimming;
@@ -42,10 +42,10 @@ DZE_cancelBuilding = false;
 call gear_ui_init;
 closeDialog 1;
 
-if (_isWater) exitWith {DZE_ActionInProgress = false; cutText [localize "str_player_26", "PLAIN DOWN"];call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;};
-if (_inVehicle) exitWith {DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_42"), "PLAIN DOWN"];call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;};
-if (_onLadder) exitWith {DZE_ActionInProgress = false; cutText [localize "str_player_21", "PLAIN DOWN"];call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;};
-if (player getVariable["combattimeout", 0] >= time) exitWith {DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_43"), "PLAIN DOWN"];call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;};
+if (_isWater) exitWith {DZE_ActionInProgress = false; cutText [localize "str_player_26", "PLAIN DOWN"];};
+if (_inVehicle) exitWith {DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_42"), "PLAIN DOWN"];};
+if (_onLadder) exitWith {DZE_ActionInProgress = false; cutText [localize "str_player_21", "PLAIN DOWN"];};
+if (player getVariable["combattimeout", 0] >= time) exitWith {DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_43"), "PLAIN DOWN"];};
 
 _item =	_this;
 
@@ -91,7 +91,6 @@ _needNear = 	getArray (configFile >> "CfgMagazines" >> _item >> "ItemActions" >>
 if(_abort) exitWith {
 	cutText [format[(localize "str_epoch_player_135"),_reason,_distance], "PLAIN DOWN"];
 	DZE_ActionInProgress = false;
-	call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 };
 
 _classname = 	getText (configFile >> "CfgMagazines" >> _item >> "ItemActions" >> "Build" >> "create");
@@ -143,7 +142,7 @@ _findNearestPole = [];
 _IsNearPlot = count (_findNearestPole);
 
 // If item is plot pole and another one exists within 45m
-if(_isPole and _IsNearPlot > 0) exitWith {  DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_44") , "PLAIN DOWN"]; call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;};
+if(_isPole and _IsNearPlot > 0) exitWith {  DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_44") , "PLAIN DOWN"];};
 
 if(_IsNearPlot == 0) then {
 
@@ -183,7 +182,7 @@ if(_IsNearPlot == 0) then {
 };
 
 // _message
-if(!_canBuildOnPlot) exitWith {  DZE_ActionInProgress = false; cutText [format[(localize "STR_EPOCH_PLAYER_135"),_needText,_distance] , "PLAIN DOWN"];call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup; };
+if(!_canBuildOnPlot) exitWith {  DZE_ActionInProgress = false; cutText [format[(localize "STR_EPOCH_PLAYER_135"),_needText,_distance] , "PLAIN DOWN"];};
 
 _missing = "";
 _hasrequireditem = true;
@@ -193,9 +192,9 @@ _hasrequireditem = true;
 } forEach _require;
 
 _hasbuilditem = _this in magazines player;
-if (!_hasbuilditem) exitWith {DZE_ActionInProgress = false; cutText [format[(localize "str_player_31"),_text,"build"] , "PLAIN DOWN"];call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup; };
+if (!_hasbuilditem) exitWith {DZE_ActionInProgress = false; cutText [format[(localize "str_player_31"),_text,"build"] , "PLAIN DOWN"];};
 
-if (!_hasrequireditem) exitWith {DZE_ActionInProgress = false; cutText [format[(localize "str_epoch_player_137"),_missing] , "PLAIN DOWN"]; call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;};
+if (!_hasrequireditem) exitWith {DZE_ActionInProgress = false; cutText [format[(localize "str_epoch_player_137"),_missing] , "PLAIN DOWN"];};
 if (_hasrequireditem) then {
 
 	_location = [0,0,0];
@@ -215,11 +214,8 @@ if (_hasrequireditem) then {
 	_objectHelper = "Sign_sphere10cm_EP1" createVehicle _location;
 	_helperColor = "#(argb,8,8,3)color(0,0,0,0,ca)";
 	_objectHelper setobjecttexture [0,_helperColor];
-
-	
 	_objectHelper attachTo [player,_offset];
 	_object attachTo [_objectHelper,[0,0,0]];
-
 	_position = getPosATL _objectHelper;
 	
 	//cutText [(localize "str_epoch_player_45"), "PLAIN DOWN"];
@@ -228,8 +224,6 @@ if (_hasrequireditem) then {
 
 if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {	
 	["","","",["Init",_object,_classname,_objectHelper]] spawn snap_build;
-}else{
-	[0,0,0] call fnc_snapActionCleanup;
 };
 	
 	while {_isOk} do {
@@ -272,18 +266,18 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			_rotate = true;
 			DZE_4 = false;
 			if (helperDetach) then {
-			_dir = -45;
+				_dir = -45;
 			} else {
-			_dir = 180;
+				_dir = 180;
 			};
 		};
 		if (DZE_6) then {
 			_rotate = true;
 			DZE_6 = false;
 			if (helperDetach) then {
-			_dir = 45;
+				_dir = 45;
 			} else {
-			_dir = 0;
+				_dir = 0;
 			};
 		};
 		
@@ -305,16 +299,17 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 		};
 
 		if(_rotate) then {
-			if (!helperDetach) then {
-			_objectHelper setDir _dir;
-			_objectHelper setPosATL _position;
-			//diag_log format["DEBUG Rotate BUILDING POS: %1", _position];
-			}else{
-			_objectHelperDir = getDir _objectHelper;
-			_objectHelperPos = getPosATL _objectHelper;
-			_objectHelper setDir _objectHelperDir+_dir;
-			_objectHelper setPosATL _objectHelperPos;
+			if (helperDetach) then {
+				_objectHelperDir = getDir _objectHelper;
+				_objectHelperPos = getPosATL _objectHelper;
+				_objectHelper setDir _objectHelperDir+_dir;
+				_objectHelper setPosATL _objectHelperPos;
+			} else {
+				_objectHelper setDir _dir;
+				_objectHelper setPosATL _position;
+				//diag_log format["DEBUG Rotate BUILDING POS: %1", _position];			
 			};
+
 		};
 
 		if(_zheightchanged) then {
@@ -379,7 +374,6 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
-			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 		if(_location1 distance _location2 > 10) exitWith {
@@ -390,7 +384,6 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
-			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 		if(abs(_objHDiff) > 5) exitWith {
@@ -401,7 +394,6 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
-			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 		if (player getVariable["combattimeout", 0] >= time) exitWith {
@@ -412,7 +404,6 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
-			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 		if (DZE_cancelBuilding) exitWith {
@@ -423,7 +414,6 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _object;
 			detach _objectHelper;
 			deleteVehicle _objectHelper;
-			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 	};
 
@@ -605,7 +595,6 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			} else {
 				deleteVehicle _tmpbuilt;
 				cutText [(localize "str_epoch_player_46") , "PLAIN DOWN"];
-				call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 			};
 
 		} else {
@@ -618,14 +607,11 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _tmpbuilt;
 
 			cutText [(localize "str_epoch_player_46") , "PLAIN DOWN"];
-			call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 		};
 
 	} else {
 		cutText [format[(localize "str_epoch_player_47"),_text,_reason], "PLAIN DOWN"];
-		call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
 	};
 };
 
 DZE_ActionInProgress = false;
-call fnc_initSnapPointsCleanup;[0,0,0] call fnc_snapActionCleanup;
