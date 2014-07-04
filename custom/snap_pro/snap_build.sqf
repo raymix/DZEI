@@ -2,7 +2,7 @@
 // Created by Raymix|
 //------------------|
 
-private ["_object","_objectSnapGizmo","_objColorActive","_objColorInactive","_classname","_whitelist","_points","_cfg","_cnt","_pos","_findWhitelisted","_nearbyObject","_posNearby","_selectedAction","_newPos","_pointsNearby"];
+private ["_object","_objectSnapGizmo","_objColorActive","_objColorInactive","_classname","_whitelist","_points","_cfg","_cnt","_pos","_findWhitelisted","_nearbyObject","_posNearby","_selectedAction","_newPos","_pointsNearby","_onWater"];
 //Args
 snapActionState = _this select 3 select 0;
 _object = _this select 3 select 1;
@@ -62,10 +62,15 @@ fnc_initSnapPointsNearby = {
 		_nearbyObject = _x;
 		_pointsNearby = getArray (missionConfigFile >> "SnapBuilding" >> (typeOf _x) >> "points");
 		{
+			_onWater = surfaceIsWater position _nearbyObject;
 			_objectSnapGizmo = "Sign_sphere10cm_EP1" createVehicleLocal [0,0,0];
 			_objectSnapGizmo setobjecttexture [0,_objColorInactive];
 			_posNearby = _nearbyObject modelToWorld [_x select 0,_x select 1,_x select 2];
-			_objectSnapGizmo setPosATL _posNearby;
+			if (_onWater) then {
+				_objectSnapGizmo setPosASL [(_posNearby) select 0,(_posNearby) select 1,(getPosASL _nearbyObject select 2) + (_x select 2)];
+			} else {
+				_objectSnapGizmo setPosATL _posNearby;
+			};
 			_objectSnapGizmo setDir (getDir _nearbyObject);
 			snapGizmosNearby set [count snapGizmosNearby,_objectSnapGizmo];
 		} forEach _pointsNearby;
