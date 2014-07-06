@@ -386,10 +386,10 @@ if (isClass (missionConfigFile >> "SnapBuilding" >> _classname)) then {
 			deleteVehicle _objectHelper;
 		};
 
-		if(abs(_objHDiff) > 5) exitWith {
+		if(abs(_objHDiff) > 10) exitWith {
 			_isOk = false;
 			_cancel = true;
-			_reason = "Cannot move up or down more than 5 meters";
+			_reason = "Cannot move up or down more than 10 meters";
 			detach _object;
 			deleteVehicle _object;
 			detach _objectHelper;
